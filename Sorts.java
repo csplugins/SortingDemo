@@ -1,6 +1,8 @@
 //package sortingsolution;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Sorts {
     public int[] QuickSort(int[] elements){
@@ -128,5 +130,45 @@ public class Sorts {
             n--;
         }
         return elements;
+    }
+    
+    public int[] RadixSort(int[] elements){
+        Queue<Integer> main_queue = new LinkedList();
+        if(elements.length > 0){
+            int largest = elements[0];
+            for (int i = 0; i < elements.length; ++i) {
+                main_queue.add(elements[i]);
+                largest = largest < elements[i] ? elements[i] : largest;
+            }
+            int digits = 0;
+            do{
+                largest /= 10;
+                ++digits;
+            }while(largest != 0);
+            Queue<Integer>[] buckets = new Queue[10];
+            for(int i = 0; i < 10; ++i){
+                buckets[i] = new LinkedList();
+            }
+            int den = 1;
+            for (int i = 0; i < digits; ++i){
+                while (main_queue.size() > 0){
+                    int temp = main_queue.remove();
+                    buckets[(temp / den) % 10].add(temp);
+                }
+                for (int j = 0; j < 10; ++j){
+                    while (buckets[j].size() > 0){
+                        main_queue.add(buckets[j].remove());
+                    }
+                }
+                den *= 10;
+            }
+        }
+        int[] ret = elements;
+        int i = 0;
+        while (main_queue.size() > 0) {
+            ret[i] = main_queue.remove();
+            i++;
+	}
+	return ret;
     }
 }

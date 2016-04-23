@@ -16,7 +16,8 @@ public class Sort {
         //s.QuickSort(elements);
         //s.BubbleSort(elements);
         //s.InsertionSort(elements);
-        s.MergeSort(elements);
+        //s.MergeSort(elements);
+        s.RadixSort(elements);
         for(int i = 0; i < elements.length; ++i){
             System.out.print(elements[i] + " ");
         }

@@ -56,12 +56,63 @@ public class Sorts {
         return retVec;
     }
     
-    public void InsertionSort(int[] elements){
-        
+    public int[] InsertionSort(int[] elements){
+        for (int i = 1; i < elements.length; i++){
+		int temp = elements[i];
+		int placeToInsert = i;
+		while (placeToInsert > 0 && elements[placeToInsert-1] > temp){
+			elements[placeToInsert] = elements[placeToInsert - 1];
+			--placeToInsert;
+		}
+		elements[placeToInsert] = temp;
+	}
+        return elements;
     }
     
-    public void MergetSort(int[] elements){
-        
+    public int[] MergeSort(int[] elements){
+        if (elements.length < 2)
+		return elements;
+        int[] retVec = elements;
+        if(retVec.length == 2)
+            if(retVec[0] > retVec[1]) {
+                    int temp = retVec[0];
+                    retVec[0] = retVec[1];
+                    retVec[1] = temp;
+                    return retVec;
+            }
+        int halfPoint = retVec.length / 2;
+        int[] firstHalf = new int[halfPoint];
+        int[] secondHalf = new int[retVec.length - halfPoint];
+        for(int i = 0; i < firstHalf.length; ++i){
+            firstHalf[i] = retVec[i];
+        }
+        for(int i = 0; i < secondHalf.length; ++i){
+            secondHalf[i] = retVec[i+halfPoint];
+        }
+        firstHalf = MergeSort(firstHalf);
+	secondHalf = MergeSort(secondHalf);
+	int i = 0, j = 0, count = 0;
+        while(i < firstHalf.length && j < secondHalf.length){
+		if(firstHalf[i] <= secondHalf[j]){
+			retVec[count] = firstHalf[i];
+			++i;
+		}
+		else{
+			retVec[count] = secondHalf[j];
+			++j;
+		}
+		count++;
+	}
+        if (i < j)
+		for (int k = i; k < firstHalf.length; k++){
+			retVec[count] = firstHalf[k];
+			count++;
+		}
+	else for (int k = j; k < secondHalf.length; k++) {
+		retVec[count] = secondHalf[k];
+		count++;
+	}
+        return retVec;
     }
     
     public int[] BubbleSort(int[] elements){

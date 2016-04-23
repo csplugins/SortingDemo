@@ -13,12 +13,12 @@ public class Sort {
         }
         Sorts s = new Sorts();
         
-        s.QuickSort(elements);
+        //s.QuickSort(elements);
+        s.BubbleSort(elements);
         for(int i = 0; i < elements.length; ++i){
             System.out.print(elements[i] + " ");
         }
         System.out.println("");
-        s.BubbleSort(elements);
         s.InsertionSort(elements);
         s.MergetSort(elements);
     }

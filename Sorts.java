@@ -40,7 +40,6 @@ public class Sorts {
             left[k] = retVec[k];
         }
         for(int k = i+1; k < retVec.length; ++k){
-            //System.out.println(retVec.length + " " + k + " " + (k - i - 1));
             right[k-i-1] = retVec[k];
         }
         
@@ -65,12 +64,18 @@ public class Sorts {
         
     }
     
-    public void BubbleSort(int[] elements){
-        
+    public int[] BubbleSort(int[] elements){
+        int n = elements.length;
+        for(int i = 0; i < elements.length; ++i){
+            for(int j = 0; j < n-1; ++j){
+                if (elements[j] > elements[j + 1]) {
+                    int temp = elements[j];
+                    elements[j] = elements[j + 1];
+                    elements[j + 1] = temp;
+                }
+            }
+            n--;
+        }
+        return elements;
     }
 }
-
-/*for(int z = 0; z < retVec.length; ++z){
-            System.out.print(retVec[z] + " ");
-        }
-        System.out.println("");*/

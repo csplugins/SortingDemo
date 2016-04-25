@@ -6,20 +6,6 @@ import java.awt.FlowLayout;
 public class Main implements Runnable {
     private final JFrame frame;
 
-    public enum ASort {
-        QUICK("Quick Sort"), INSERT("Insertion Sort"), MERGE("Merge Sort"), BUBBLE("Bubble Sort"), RADIX("Radix Sort");
-        private final String name;
-
-        ASort(final String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
     public Main() {
         frame = new JFrame();
         frame.setTitle("Sort Visualizer");
@@ -27,7 +13,7 @@ public class Main implements Runnable {
         final JPanel p1 = new JPanel();
         p1.setLayout(new FlowLayout());
         p1.add(new JLabel("Sort"));
-        p1.add(new JComboBox<>(ASort.values()));
+        p1.add(new JComboBox<>(Sort.values()));
         p1.add(new JLabel("Delay"));
         p1.add(new JSlider(1, 100, 25));
         p1.add(new JButton("Start"));

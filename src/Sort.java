@@ -1,9 +1,21 @@
-public enum Sort {
-    QUICK("Quick Sort"), INSERT("Insertion Sort"), MERGE("Merge Sort"), BUBBLE("Bubble Sort"), RADIX("Radix Sort");
-    private final String name;
+import sorts.*;
 
-    Sort(final String name) {
+public enum Sort {
+    QUICK("Quick Sort", new QuickSort()),
+    INSERT("Insertion Sort", new InsertionSort()),
+    MERGE("Merge Sort", new MergeSort()),
+    BUBBLE("Bubble Sort", new BubbleSort()),
+    RADIX("Radix Sort", new RadixSort());
+    private final String name;
+    private final GenericSort sort;
+
+    Sort(final String name, final GenericSort sort) {
         this.name = name;
+        this.sort = sort;
+    }
+
+    public GenericSort getSort() {
+        return sort;
     }
 
     @Override

@@ -34,9 +34,7 @@ public class Sorts {
 
         int[] left = new int[i];
         int[] right = new int[elements.length - i - 1];
-        for (int k = 0; k < i; ++k) {
-            left[k] = elements[k];
-        }
+        System.arraycopy(elements, 0, left, 0, i);
         for (int k = i + 1; k < elements.length; ++k) {
             right[k - i - 1] = elements[k];
         }
@@ -79,7 +77,7 @@ public class Sorts {
         int[] firstHalf = new int[halfPoint];
         int[] secondHalf = new int[elements.length - halfPoint];
         System.arraycopy(elements, 0, firstHalf, 0, firstHalf.length);
-        System.arraycopy(elements, 0 + halfPoint, secondHalf, 0, secondHalf.length);
+        System.arraycopy(elements, halfPoint, secondHalf, 0, secondHalf.length);
         firstHalf = MergeSort(firstHalf);
         secondHalf = MergeSort(secondHalf);
         int i = 0, j = 0, count = 0;
@@ -133,9 +131,10 @@ public class Sorts {
                 largest /= 10;
                 ++digits;
             } while (largest != 0);
+            @SuppressWarnings("unchecked")
             Queue<Integer>[] buckets = new Queue[10];
             for (int i = 0; i < 10; ++i) {
-                buckets[i] = new LinkedList();
+                buckets[i] = new LinkedList<>();
             }
             int den = 1;
             for (int i = 0; i < digits; ++i) {

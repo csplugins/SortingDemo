@@ -1,4 +1,4 @@
-package sorts;
+package edu.akron.algorithms.sorts;
 
 public class QuickSort implements GenericSort {
     @Override

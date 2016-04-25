@@ -1,4 +1,6 @@
-import sorts.*;
+package edu.akron.algorithms;
+
+import edu.akron.algorithms.sorts.*;
 
 public enum Sort {
     QUICK("Quick Sort", new QuickSort()),

@@ -1,3 +1,5 @@
+package edu.akron.algorithms;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package sorts;
+package edu.akron.algorithms.sorts;
 
 import java.util.LinkedList;
 import java.util.Queue;

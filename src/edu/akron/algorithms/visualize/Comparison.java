@@ -14,4 +14,9 @@ public class Comparison {
     public static Comparison basic(final int index) {
         return new Comparison(Color.red, index);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s", color.toString(), index);
+    }
 }

@@ -7,24 +7,24 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class QuickSort implements GenericSort {
-    public int[] _sort(final Queue<SortStep> q, int[] elements) {
-        if (elements.length < 2) return elements;
-        if (elements.length == 2) {
-            if (elements[0] > elements[1]) {
-                int temp = elements[0];
-                elements[0] = elements[1];
-                elements[1] = temp;
+    public int[] _sort(final Queue<SortStep> q, int[] elements, int right, int left) {
+        if (right - left + 1 < 2) return elements;
+        if (right - left + 1 == 2) {
+            if (elements[left] > elements[right]) {
+                int temp = elements[left];
+                elements[left] = elements[right];
+                elements[right] = temp;
             }
             return elements;
         }
-        int a = elements[0], b = elements[(elements.length - 1) / 2], c = elements[elements.length - 1];
-        int pivot = ((a - b) * (b - c) > -1 ? (elements.length - 1) / 2 : ((a - b) * (a - c) < 1 ? 0 : elements.length - 1));
+        int a = elements[left], b = elements[(right - left) / 2], c = elements[right - left];
+        int pivot = ((a - b) * (b - c) > -1 ? (right - left) / 2 : ((a - b) * (a - c) < 1 ? 0 : right - left));
         int temp = elements[pivot];
-        elements[pivot] = elements[elements.length - 1];
-        elements[elements.length - 1] = temp;
-        pivot = elements.length - 1;
+        elements[pivot] = elements[right - left];
+        elements[right - left] = temp;
+        pivot = right - left;
         int i = -1;
-        int j = elements.length - 1;
+        int j = right - left;
         do {
             while (elements[++i] < elements[pivot]) ;
             while (i < j && elements[--j] > elements[pivot]) ;
@@ -36,20 +36,8 @@ public class QuickSort implements GenericSort {
         elements[pivot] = elements[i];
         elements[i] = temp;
 
-        int[] left = new int[i];
-        int[] right = new int[elements.length - i - 1];
-        System.arraycopy(elements, 0, left, 0, i);
-        for (int k = i + 1; k < elements.length; ++k) {
-            right[k - i - 1] = elements[k];
-        }
-
-        left = _sort(q, left);
-        right = _sort(q, right);
-
-        System.arraycopy(left, 0, elements, 0, left.length);
-        for (int z = 0; z < right.length; z++) {
-            elements[elements.length - 1 - z] = right[right.length - 1 - z];
-        }
+        _sort(q, elements, left, i - 1);
+        _sort(q, elements, left - right - i , right);
 
         return elements;
     }
@@ -57,7 +45,7 @@ public class QuickSort implements GenericSort {
     @Override
     public Sorted sort(int[] arr) {
         final Queue<SortStep> q = new LinkedList<>();
-        final int[] arr2 = _sort(q, arr);
+        final int[] arr2 = _sort(q, arr, 0 , arr.length - 1);
         return new Sorted(arr2, q);
     }
 }

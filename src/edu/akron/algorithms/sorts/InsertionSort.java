@@ -1,8 +1,15 @@
 package edu.akron.algorithms.sorts;
 
+import edu.akron.algorithms.visualize.SortStep;
+import edu.akron.algorithms.visualize.Sorted;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class InsertionSort implements GenericSort {
     @Override
-    public int[] sort(int[] elements) {
+    public Sorted sort(int[] elements) {
+        final Queue<SortStep> q = new LinkedList<>();
         for (int i = 1; i < elements.length; i++) {
             int temp = elements[i];
             int placeToInsert = i;
@@ -12,6 +19,6 @@ public class InsertionSort implements GenericSort {
             }
             elements[placeToInsert] = temp;
         }
-        return elements;
+        return new Sorted(elements, q);
     }
 }

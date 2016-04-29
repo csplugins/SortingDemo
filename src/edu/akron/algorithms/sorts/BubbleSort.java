@@ -1,8 +1,15 @@
 package edu.akron.algorithms.sorts;
 
+import edu.akron.algorithms.visualize.SortStep;
+import edu.akron.algorithms.visualize.Sorted;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class BubbleSort implements GenericSort {
     @Override
-    public int[] sort(int[] elements) {
+    public Sorted sort(int[] elements) {
+        final Queue<SortStep> q = new LinkedList<>();
         int n = elements.length;
         for (int i = 0; i < elements.length; ++i) {
             for (int j = 0; j < n - 1; ++j) {
@@ -14,6 +21,6 @@ public class BubbleSort implements GenericSort {
             }
             n--;
         }
-        return elements;
+        return new Sorted(elements, q);
     }
 }

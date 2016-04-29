@@ -1,11 +1,13 @@
 package edu.akron.algorithms.sorts;
 
+import edu.akron.algorithms.visualize.SortStep;
+import edu.akron.algorithms.visualize.Sorted;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class RadixSort implements GenericSort {
-    @Override
-    public int[] sort(int[] elements) {
+    public int[] _sort(int[] elements) {
         Queue<Integer> main_queue = new LinkedList<>();
         if (elements.length > 0) {
             int largest = elements[0];
@@ -43,5 +45,12 @@ public class RadixSort implements GenericSort {
             i++;
         }
         return elements;
+    }
+
+    @Override
+    public Sorted sort(int[] arr) {
+        final Queue<SortStep> q = new LinkedList<>();
+        final int[] arr2 = _sort(arr);
+        return new Sorted(arr2, q);
     }
 }

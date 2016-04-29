@@ -15,11 +15,6 @@ public class RadixSort implements GenericSort {
         Queue<Integer> main_queue = new LinkedList<>();
         if (elements.length <= 0) return new Sorted(elements, q);
         int largest = elements[0];
-        q.offer(new SortStep(elements, new HashSet<Comparison>() {
-            {
-                add(Comparison.basic(0));
-            }
-        }));
         final int[] index = {0};
         for (int element : elements) {
             main_queue.add(element);

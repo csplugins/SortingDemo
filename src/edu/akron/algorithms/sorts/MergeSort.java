@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class MergeSort implements GenericSort {
-    public int[] _sort(int[] elements) {
+    public int[] _sort(final Queue<SortStep> q, int[] elements) {
         if (elements.length < 2)
             return elements;
         if (elements.length == 2)
@@ -22,8 +22,8 @@ public class MergeSort implements GenericSort {
         int[] secondHalf = new int[elements.length - halfPoint];
         System.arraycopy(elements, 0, firstHalf, 0, firstHalf.length);
         System.arraycopy(elements, halfPoint, secondHalf, 0, secondHalf.length);
-        firstHalf = _sort(firstHalf);
-        secondHalf = _sort(secondHalf);
+        firstHalf = _sort(q, firstHalf);
+        secondHalf = _sort(q, secondHalf);
         int i = 0, j = 0, count = 0;
         while (i < firstHalf.length && j < secondHalf.length) {
             if (firstHalf[i] <= secondHalf[j]) {
@@ -50,7 +50,7 @@ public class MergeSort implements GenericSort {
     @Override
     public Sorted sort(int[] arr) {
         final Queue<SortStep> q = new LinkedList<>();
-        final int[] arr2 = _sort(arr);
+        final int[] arr2 = _sort(q, arr);
         return new Sorted(arr2, q);
     }
 }

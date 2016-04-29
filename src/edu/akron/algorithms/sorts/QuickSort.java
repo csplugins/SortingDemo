@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class QuickSort implements GenericSort {
-    public int[] _sort(int[] elements) {
+    public int[] _sort(final Queue<SortStep> q, int[] elements) {
         if (elements.length < 2) return elements;
         if (elements.length == 2) {
             if (elements[0] > elements[1]) {
@@ -43,8 +43,8 @@ public class QuickSort implements GenericSort {
             right[k - i - 1] = elements[k];
         }
 
-        left = _sort(left);
-        right = _sort(right);
+        left = _sort(q, left);
+        right = _sort(q, right);
 
         System.arraycopy(left, 0, elements, 0, left.length);
         for (int z = 0; z < right.length; z++) {
@@ -57,7 +57,7 @@ public class QuickSort implements GenericSort {
     @Override
     public Sorted sort(int[] arr) {
         final Queue<SortStep> q = new LinkedList<>();
-        final int[] arr2 = _sort(arr);
+        final int[] arr2 = _sort(q, arr);
         return new Sorted(arr2, q);
     }
 }

@@ -10,4 +10,8 @@ public class Comparison {
         this.color = color;
         this.index = index;
     }
+
+    public static Comparison basic(final int index) {
+        return new Comparison(Color.red, index);
+    }
 }

@@ -16,6 +16,8 @@ public class Main implements Runnable {
         p1.setLayout(new FlowLayout());
         p1.add(new JLabel("Sort"));
         p1.add(new JComboBox<>(Sort.values()));
+        p1.add(new JLabel("Data"));
+        p1.add(new JComboBox<>(Sample.values()));
         p1.add(new JLabel("Delay"));
         p1.add(new JSlider(1, 100, 25));
         p1.add(new JButton("Start"));

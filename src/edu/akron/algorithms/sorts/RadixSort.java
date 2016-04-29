@@ -7,7 +7,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class RadixSort implements GenericSort {
-    public int[] _sort(int[] elements) {
+    @Override
+    public Sorted sort(int[] elements) {
+        final Queue<SortStep> q = new LinkedList<>();
         Queue<Integer> main_queue = new LinkedList<>();
         if (elements.length > 0) {
             int largest = elements[0];
@@ -44,13 +46,6 @@ public class RadixSort implements GenericSort {
             elements[i] = main_queue.remove();
             i++;
         }
-        return elements;
-    }
-
-    @Override
-    public Sorted sort(int[] arr) {
-        final Queue<SortStep> q = new LinkedList<>();
-        final int[] arr2 = _sort(arr);
-        return new Sorted(arr2, q);
+        return new Sorted(elements, q);
     }
 }

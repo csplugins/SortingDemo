@@ -26,7 +26,13 @@ public class Main implements Runnable {
 
     public static void main(final String[] params) {
         final Runnable r = new Main();
-        r.run();
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (final ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
+            }
+            r.run();
+        });
     }
 
     @Override

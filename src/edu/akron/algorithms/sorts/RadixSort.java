@@ -1,8 +1,10 @@
 package edu.akron.algorithms.sorts;
 
+import edu.akron.algorithms.visualize.Comparison;
 import edu.akron.algorithms.visualize.SortStep;
 import edu.akron.algorithms.visualize.Sorted;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,9 +15,20 @@ public class RadixSort implements GenericSort {
         Queue<Integer> main_queue = new LinkedList<>();
         if (elements.length <= 0) return new Sorted(elements, q);
         int largest = elements[0];
+        q.offer(new SortStep(elements, new HashSet<Comparison>() {
+            {
+                add(Comparison.basic(0));
+            }
+        }));
+        final int[] index = {0};
         for (int element : elements) {
             main_queue.add(element);
             largest = largest < element ? element : largest;
+            q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                {
+                    add(Comparison.basic(index[0]++));
+                }
+            }));
         }
         int digits = 0;
         do {
@@ -27,6 +40,7 @@ public class RadixSort implements GenericSort {
         for (int i = 0; i < 10; ++i) {
             buckets[i] = new LinkedList<>();
         }
+        //TODO: add more radix comparisons
         int den = 1;
         for (int i = 0; i < digits; ++i) {
             while (main_queue.size() > 0) {

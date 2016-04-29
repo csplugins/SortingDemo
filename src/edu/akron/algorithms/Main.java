@@ -109,7 +109,7 @@ public class Main implements Runnable {
             final Thread t = new Thread(() -> {
                 final int[] data = s2.data();
                 final GenericSort sort = s.getSort();
-                final Sorted sorted = sort.sort(data);
+                final Sorted sorted = sort.sort(Arrays.copyOf(data, Math.min(data.length, s.limit)));
                 for (final SortStep step : sorted.steps) {
                     this.step.set(step);
                     try {

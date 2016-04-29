@@ -12,24 +12,22 @@ public class InsertionSort implements GenericSort {
     @Override
     public Sorted sort(int[] elements) {
         final Queue<SortStep> q = new LinkedList<>();
-        for (int i = 1; i < elements.length; i++) {
-            final int temp = elements[i];
-            int pos = i;
-            while (pos > 0) {
+        for (int i = 1; i < elements.length; ++i) {
+            int temp = elements[i];
+            int j;
+            for (j = i - 1; j >= 0 && temp < elements[j]; --j) {
+                final int finalJ = j;
                 final int finalI = i;
-                final int finalPos = pos;
                 q.offer(new SortStep(elements, new HashSet<Comparison>() {
                     {
                         add(Comparison.special(finalI));
-                        add(Comparison.basic(finalPos - 1));
-                        add(Comparison.basic(finalPos));
+                        add(Comparison.basic(finalJ));
+                        add(Comparison.basic(finalJ + 1));
                     }
                 }));
-                if (elements[pos - 1] <= temp) continue;
-                elements[pos] = elements[pos - 1];
-                --pos;
+                elements[j + 1] = elements[j];
             }
-            elements[pos] = temp;
+            elements[j + 1] = temp;
         }
         return new Sorted(elements, q);
     }

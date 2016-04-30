@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 public class Main implements Runnable {
     private static final int BAR_PADDING = 2;
@@ -109,9 +110,15 @@ public class Main implements Runnable {
             final Thread t = new Thread(() -> {
                 final int[] data = s2.data();
                 final GenericSort sort = s.getSort();
-                final Sorted sorted = sort.sort(Arrays.copyOf(data, Math.min(data.length, s.limit)));
+                final int[] soda;
+                final Sorted sorted = sort.sort(soda = Arrays.copyOf(data, Math.min(data.length, s.limit)));
                 for (final SortStep step : sorted.steps) {
                     this.step.set(step);
+                    Object[] ta = null;
+                    if (step.comparisons.size() != 2) {
+                        Stream<Comparison> c = step.comparisons.stream().filter(Comparison::isBasic);
+                        if (c.count() == 2) ta = c.toArray();
+                    } else ta = step.comparisons.toArray();
                     try {
                         SwingUtilities.invokeAndWait(this::repaint);
                     } catch (final InterruptedException | InvocationTargetException ignored) {

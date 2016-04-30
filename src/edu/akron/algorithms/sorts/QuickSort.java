@@ -1,44 +1,49 @@
 package edu.akron.algorithms.sorts;
 
+import edu.akron.algorithms.visualize.Comparison;
 import edu.akron.algorithms.visualize.SortStep;
 import edu.akron.algorithms.visualize.Sorted;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class QuickSort implements GenericSort {
     public int[] _sort(final Queue<SortStep> q, int[] elements, int left, int right) {
-        if (right - left + 1 < 2) return elements;
-        if (right - left + 1 == 2) {
-            if (elements[left] > elements[right]) {
-                int temp = elements[left];
-                elements[left] = elements[right];
-                elements[right] = temp;
+        int i = left, j = right;
+        final int m;
+        int pivot = elements[m = left + ((right - left) >> 1)];
+        while (i <= j) {
+            while (elements[i] < pivot) {
+                final int finalI = i;
+                q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                    {
+                        add(Comparison.basic(finalI));
+                        add(Comparison.special(m));
+                    }
+                }));
+                ++i;
             }
-            return elements;
+            while (elements[j] > pivot) {
+                final int finalJ = j;
+                q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                    {
+                        add(Comparison.basic(finalJ));
+                        add(Comparison.special(m));
+                    }
+                }));
+                --j;
+            }
+            if (i <= j) {
+                int temp = elements[i];
+                elements[i] = elements[j];
+                elements[j] = temp;
+                ++i;
+                --j;
+            }
         }
-        int a = elements[left], b = elements[(right - left) / 2], c = elements[right - left];
-        int pivot = ((a - b) * (b - c) > -1 ? (right - left) / 2 : ((a - b) * (a - c) < 1 ? left : right - left));
-        int temp = elements[pivot];
-        elements[pivot] = elements[right - left];
-        elements[right - left] = temp;
-        pivot = right - left;
-        int i = left - 1;
-        int j = right - left;
-        do {
-            while (elements[++i] < elements[pivot]) ;
-            while (i < j && elements[--j] > elements[pivot]) ;
-            temp = elements[i];
-            elements[i] = elements[j];
-            elements[j] = temp;
-        } while (i < j);
-        temp = elements[pivot];
-        elements[pivot] = elements[i];
-        elements[i] = temp;
-        
-        _sort(q, elements, left, i - 1);
-        _sort(q, elements, i + 1 , right);
-
+        if (left < j) _sort(q, elements, left, j);
+        if (i < right) _sort(q, elements, i, right);
         return elements;
     }
 

@@ -133,7 +133,8 @@ public class Main implements Runnable {
                     }
                     if (tone != null && ta != null) {
                         tone.compare(slider.getValue(), soda[((Comparison) ta[0]).index], soda[((Comparison) ta[1]).index]);
-                    } else try {
+                    }
+                    try {
                         Thread.sleep(slider.getValue());
                     } catch (final InterruptedException ignored) {
                     }

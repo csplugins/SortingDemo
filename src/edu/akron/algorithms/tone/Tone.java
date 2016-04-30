@@ -34,8 +34,6 @@ public class Tone {
         doMath(b2, value2, scale);
         line.write(b, 0, duration);
         line2.write(b2, 0, duration);
-        line.drain();
-        line2.drain();
     }
 
     public void complete(final int duration, int[] elements) {

@@ -14,9 +14,9 @@ public class QuickSort implements GenericSort {
         final int m;
         int a = elements[left], b = elements[left + ((right - left) >> 1)], c = elements[right];
         int pivot = ((a - b) * (b - c) > -1 ? left + ((right - left) >> 1) : ((a - b) * (a - c) < 1 ? left : right));
-        //int temp = elements[pivot];
-        //elements[pivot] = elements[left + ((right - left) >> 1)];
-        //elements[left + ((right - left) >> 1)] = temp;
+        int temp = elements[pivot];
+        elements[pivot] = elements[left + ((right - left) >> 1)];
+        elements[left + ((right - left) >> 1)] = temp;
         pivot = elements[m = left + ((right - left) >> 1)];
         while (i <= j) {
             while (elements[i] < pivot) {

@@ -11,6 +11,10 @@ public class Comparison {
         this.index = index;
     }
 
+    public boolean isBasic() {
+        return color.equals(Color.red);
+    }
+
     public static Comparison basic(final int index) {
         return new Comparison(Color.red, index);
     }

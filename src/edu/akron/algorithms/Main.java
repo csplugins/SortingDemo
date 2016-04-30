@@ -14,9 +14,9 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Stream;
 
 public class Main implements Runnable {
     private static final int BAR_PADDING = 2;
@@ -123,8 +123,9 @@ public class Main implements Runnable {
                     this.step.set(step);
                     Object[] ta = null;
                     if (step.comparisons.size() != 2) {
-                        Stream<Comparison> c = step.comparisons.stream().filter(Comparison::isBasic);
-                        if (c.count() == 2) ta = c.toArray();
+                        final HashSet<Comparison> set2 = new HashSet<>(step.comparisons);
+                        set2.removeIf(comparison -> !comparison.isBasic());
+                        if (set2.size() == 2) ta = set2.toArray();
                     } else ta = step.comparisons.toArray();
                     try {
                         SwingUtilities.invokeAndWait(this::repaint);

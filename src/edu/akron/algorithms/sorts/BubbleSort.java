@@ -40,6 +40,7 @@ public class BubbleSort implements GenericSort {
             }
             n--;
         }
+        tone.PlaySorted(elements);
         return new Sorted(elements, q);
     }
 }

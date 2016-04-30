@@ -49,6 +49,7 @@ public class MergeSort implements GenericSort {
         } catch (LineUnavailableException ignored) {
         }
         final int[] arr2 = _sort(q, tone, arr, 0, arr.length - 1);
+        tone.PlaySorted(arr2);
         return new Sorted(arr2, q);
     }
 }

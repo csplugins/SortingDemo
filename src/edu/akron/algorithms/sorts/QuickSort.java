@@ -12,7 +12,12 @@ public class QuickSort implements GenericSort {
     public int[] _sort(final Queue<SortStep> q, int[] elements, int left, int right) {
         int i = left, j = right;
         final int m;
-        int pivot = elements[m = left + ((right - left) >> 1)];
+        int a = elements[left], b = elements[(right - left) / 2], c = elements[right - left];
+        int pivot = ((a - b) * (b - c) > -1 ? (right - left) / 2 : ((a - b) * (a - c) < 1 ? left : right - left));
+        int temp = elements[pivot];
+        elements[pivot] = elements[(right - left) >> 1];
+        elements[(right - left) >> 1] = temp;
+        pivot = elements[m = left + ((right - left) >> 1)];
         while (i <= j) {
             while (elements[i] < pivot) {
                 final int finalI = i;
@@ -35,9 +40,9 @@ public class QuickSort implements GenericSort {
                 --j;
             }
             if (i <= j) {
-                int temp = elements[i];
+                int swap = elements[i];
                 elements[i] = elements[j];
-                elements[j] = temp;
+                elements[j] = swap;
                 ++i;
                 --j;
             }

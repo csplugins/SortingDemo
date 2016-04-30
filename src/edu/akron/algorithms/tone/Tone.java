@@ -10,6 +10,7 @@ public class Tone {
     SourceDataLine line;
     SourceDataLine line2;
     double scale;
+
     public Tone(int[] elements) throws LineUnavailableException {
         af = new AudioFormat(16 * 1024, 8, 1, true, true);
         line = AudioSystem.getSourceDataLine(af);
@@ -18,33 +19,30 @@ public class Tone {
         line2.start();
         line.open(af, 16 * 1024);
         line.start();
-        Integer minVal = null;
-        Integer maxVal = null;
-        for(int i = 0; i < elements.length; ++i){
-            if(minVal == null || elements[i] < minVal)
-                minVal = elements[i];
-            if(maxVal == null || elements[i] > maxVal)
-                maxVal = elements[i];
+        int minVal = Integer.MAX_VALUE, maxVal = Integer.MIN_VALUE;
+        for (final int element : elements) {
+            if (element < minVal) minVal = element;
+            if (element > maxVal) maxVal = element;
         }
         scale = (maxVal - minVal + 1) / 14;
     }
-    
-    public void PlayComparison(int value1, int value2){
+
+    public void compare(final int duration, final int value1, final int value2) {
         byte[] b = new byte[16 * 1024 * 2];
         byte[] b2 = new byte[16 * 1024 * 2];
-        //line.write(b, 0, 300);
-        //line2.write(b2, 0, 300);
         doMath(b, value1, scale);
         doMath(b2, value2, scale);
-        line.write(b, 0, 300);
-        line2.write(b2, 0, 300);
+        line.write(b, 0, duration);
+        line2.write(b2, 0, duration);
+        line.drain();
+        line2.drain();
     }
-    public void PlaySorted(int[] elements){
-        for(int i = 0; i < elements.length; ++i){
+
+    public void complete(final int duration, int[] elements) {
+        for (final int element : elements) {
             byte[] b = new byte[16 * 1024 * 2];
-            //line.write(b, 0, 150);
-            doMath(b, elements[i], scale);
-            line.write(b, 0, 300);
+            doMath(b, element, scale);
+            line.write(b, 0, duration);
         }
     }
 
@@ -58,10 +56,3 @@ public class Tone {
         }
     }
 }
-
-/* Need to implement this (maybe)
-    line.drain();
-    line.close();
-    line2.drain();
-    line2.close();
-*/

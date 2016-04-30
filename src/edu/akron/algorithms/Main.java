@@ -1,10 +1,12 @@
 package edu.akron.algorithms;
 
 import edu.akron.algorithms.sorts.GenericSort;
+import edu.akron.algorithms.tone.Tone;
 import edu.akron.algorithms.visualize.Comparison;
 import edu.akron.algorithms.visualize.SortStep;
 import edu.akron.algorithms.visualize.Sorted;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -112,6 +114,11 @@ public class Main implements Runnable {
                 final GenericSort sort = s.getSort();
                 final int[] soda;
                 final Sorted sorted = sort.sort(soda = Arrays.copyOf(data, Math.min(data.length, s.limit)));
+                Tone tone = null;
+                try {
+                    tone = new Tone(soda);
+                } catch (final LineUnavailableException ignored) {
+                }
                 for (final SortStep step : sorted.steps) {
                     this.step.set(step);
                     Object[] ta = null;
@@ -123,7 +130,9 @@ public class Main implements Runnable {
                         SwingUtilities.invokeAndWait(this::repaint);
                     } catch (final InterruptedException | InvocationTargetException ignored) {
                     }
-                    try {
+                    if (tone != null && ta != null) {
+                        tone.compare(slider.getValue(), soda[((Comparison) ta[0]).index], soda[((Comparison) ta[1]).index]);
+                    } else try {
                         Thread.sleep(slider.getValue());
                     } catch (final InterruptedException ignored) {
                     }
@@ -133,6 +142,7 @@ public class Main implements Runnable {
                     SwingUtilities.invokeAndWait(this::repaint);
                 } catch (final InterruptedException | InvocationTargetException ignored) {
                 }
+                if (tone != null) tone.complete(slider.getValue(), sorted.array);
                 running.set(false);
             });
             t.start();

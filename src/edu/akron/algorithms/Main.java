@@ -158,7 +158,7 @@ public class Main implements Runnable {
     private static GenericSample[] getSamples() {
         final java.util.List<GenericSample> samples = new ArrayList<>(Arrays.asList(Sample.values()));
         try {
-            Files.list(FileSystems.getDefault().getPath("samples")).forEach(path -> {
+            Files.list(FileSystems.getDefault().getPath("samples")).filter(e -> e.getFileName().toString().endsWith(".sort")).forEach(path -> {
                 try {
                     final java.util.List<String> lines = Files.readAllLines(path);
                     final Queue<Integer> q = new LinkedList<>();

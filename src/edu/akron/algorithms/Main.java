@@ -34,7 +34,7 @@ public class Main implements Runnable {
         p1.add(new JLabel("Sort"));
         p1.add(sort = new JComboBox<>(Sort.values()));
         p1.add(new JLabel("Data"));
-        p1.add(sample = new JComboBox<>(Sample.values()));
+        p1.add(sample = new JComboBox<>(getSamples()));
         p1.add(new JLabel("Delay"));
         p1.add(slider = new JSlider(1, 1000, 25));
         final JButton b;
@@ -109,10 +109,10 @@ public class Main implements Runnable {
         @Override
         public void actionPerformed(final ActionEvent e) {
             final Sort s = (Sort) sort.getSelectedItem();
-            final Sample s2 = (Sample) sample.getSelectedItem();
+            final GenericSample s2 = (GenericSample) sample.getSelectedItem();
             if (!running.compareAndSet(false, true)) return;
             final Thread t = new Thread(() -> {
-                final int[] data = s2.data();
+                final int[] data = s2.getData();
                 final GenericSort sort = s.getSort();
                 final int[] soda;
                 final Sorted sorted = sort.sort(soda = Arrays.copyOf(data, Math.min(data.length, s.limit)));
@@ -151,5 +151,9 @@ public class Main implements Runnable {
             });
             t.start();
         }
+    }
+
+    private static GenericSample[] getSamples() {
+        return Sample.values();
     }
 }

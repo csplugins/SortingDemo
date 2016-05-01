@@ -7,7 +7,7 @@ public class SortTester {
         for (final Sort sort : Sort.values()) {
             final GenericSort s = sort.getSort();
             for (final Sample sample : Sample.values()) {
-                final int[] a = sample.data();
+                final int[] a = sample.getData();
                 final int[] validate = s.sort(a).array;
                 int prev = validate[0];
                 for (int i = 1; i < validate.length; ++i) {

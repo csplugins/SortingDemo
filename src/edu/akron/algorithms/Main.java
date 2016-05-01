@@ -26,6 +26,7 @@ public class Main implements Runnable {
 
     public Main() {
         frame = new JFrame();
+        frame.getContentPane().setLayout(new BorderLayout());
         frame.setTitle("Sort Visualizer");
         frame.setLayout(new BorderLayout());
         final JPanel p1 = new JPanel();
@@ -39,9 +40,9 @@ public class Main implements Runnable {
         final JButton b;
         p1.add(b = new JButton("Start"));
 
-        frame.add(p1, BorderLayout.NORTH);
+        frame.getContentPane().add(p1, BorderLayout.NORTH);
         final SortVisualizer v;
-        frame.add(v = new SortVisualizer(), BorderLayout.CENTER);
+        frame.getContentPane().add(v = new SortVisualizer(), BorderLayout.CENTER);
         b.addActionListener(v);
     }
 

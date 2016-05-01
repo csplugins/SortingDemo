@@ -27,8 +27,20 @@ public class MergeSort implements GenericSort {
             }));
             if (elements[l] < elements[m]) {
                 temp[k++] = elements[l++];
+                final int finalL1 = l;
+                q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                    {
+                        add(Comparison.pick(finalL1 - 1));
+                    }
+                }));
             } else {
                 temp[k++] = elements[m++];
+                final int finalM1 = m;
+                q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                    {
+                        add(Comparison.pick(finalM1 - 1));
+                    }
+                }));
             }
         }
         while (l <= middle) temp[k++] = elements[l++];

@@ -26,6 +26,12 @@ public class BubbleSort implements GenericSort {
                     int temp = elements[j];
                     elements[j] = elements[j + 1];
                     elements[j + 1] = temp;
+                    q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                        {
+                            add(Comparison.swap(finalJ));
+                            add(Comparison.swap(finalJ + 1));
+                        }
+                    }));
                 }
             }
             n--;

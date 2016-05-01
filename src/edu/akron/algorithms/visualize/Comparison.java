@@ -23,6 +23,14 @@ public class Comparison {
         return new Comparison(Color.green.darker(), index);
     }
 
+    public static Comparison swap(final int index) {
+        return new Comparison(Color.orange, index);
+    }
+
+    public static Comparison pick(final int index) {
+        return new Comparison(Color.blue.brighter(), index);
+    }
+
     @Override
     public String toString() {
         return String.format("%s - %s", color.toString(), index);

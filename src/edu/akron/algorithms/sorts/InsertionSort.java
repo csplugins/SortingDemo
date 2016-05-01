@@ -28,6 +28,12 @@ public class InsertionSort implements GenericSort {
                 elements[j + 1] = elements[j];
             }
             elements[j + 1] = temp;
+            final int finalJ = j;
+            q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                {
+                    add(Comparison.pick(finalJ + 1));
+                }
+            }));
         }
         return new Sorted(elements, q);
     }

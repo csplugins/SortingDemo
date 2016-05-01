@@ -43,6 +43,14 @@ public class QuickSort implements GenericSort {
                 int swap = elements[i];
                 elements[i] = elements[j];
                 elements[j] = swap;
+                final int finalJ1 = j;
+                final int finalI1 = i;
+                q.offer(new SortStep(elements, new HashSet<Comparison>() {
+                    {
+                        add(Comparison.swap(finalI1));
+                        add(Comparison.swap(finalJ1));
+                    }
+                }));
                 ++i;
                 --j;
             }

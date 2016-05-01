@@ -86,9 +86,10 @@ public class Main implements Runnable {
 
         @Override
         public void paintComponent(final Graphics g) {
+            g.setColor(Color.black);
+            g.fillRect(0, 0, w, h);
             final SortStep step = this.step.get();
             if (step == null) {
-                g.clearRect(0, 0, w, h);
                 return;
             }
             final int[] data = step.arr;

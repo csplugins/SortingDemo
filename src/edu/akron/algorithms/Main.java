@@ -11,10 +11,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.util.*;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -154,6 +156,46 @@ public class Main implements Runnable {
     }
 
     private static GenericSample[] getSamples() {
-        return Sample.values();
+        final java.util.List<GenericSample> samples = new ArrayList<>(Arrays.asList(Sample.values()));
+        try {
+            Files.list(FileSystems.getDefault().getPath("samples")).forEach(path -> {
+                try {
+                    final java.util.List<String> lines = Files.readAllLines(path);
+                    final Queue<Integer> q = new LinkedList<>();
+                    final String name = lines.get(0);
+                    for (int i = 1; i < lines.size(); ++i) {
+                        try {
+                            q.offer(Integer.parseInt(lines.get(i)));
+                        } catch (final NumberFormatException ignored) {
+                        }
+                    }
+                    final Integer[] data = new Integer[q.size()];
+                    q.toArray(data);
+                    final int[] rdata = new int[data.length];
+                    for (int i = 0; i < data.length; ++i) rdata[i] = data[i];
+                    samples.add(new GenericSample() {
+                        @Override
+                        public String getTag() {
+                            return name;
+                        }
+
+                        @Override
+                        public int[] getData() {
+                            return rdata;
+                        }
+
+                        @Override
+                        public String toString() {
+                            return getTag();
+                        }
+                    });
+                } catch (final IOException ignored) {
+                }
+            });
+        } catch (final IOException ignored) {
+        }
+        final GenericSample[] arr = new GenericSample[samples.size()];
+        for (int i = 0; i < arr.length; ++i) arr[i] = samples.get(i);
+        return arr;
     }
 }

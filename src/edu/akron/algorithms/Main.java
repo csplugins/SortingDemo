@@ -127,6 +127,21 @@ public class Main implements Runnable {
                     tone = new Tone(soda);
                 } catch (final MidiUnavailableException ignored) {
                 }
+                int swaps = 0, comparisons = 0, selects = 0;
+                for (final SortStep step : sorted.steps) {
+                    boolean hasbasic = false;
+                    for (final Comparison c : step.comparisons) {
+                        if (c.isBasic()) {
+                            hasbasic = true;
+                            break;
+                        }
+                    }
+                    if (hasbasic) ++comparisons;
+                    else if (step.comparisons.size() > 1) ++swaps;
+                    else ++selects;
+                }
+                System.out.printf("%s: %s%n", Main.this.sort.getSelectedItem().toString(), Main.this.sample.getSelectedItem().toString());
+                System.out.printf("Swaps: %d, Comparisons: %d, Selects: %d%n%n", swaps, comparisons, selects);
                 final Queue<SortStep> q = new LinkedList<>(sorted.steps);
                 final Set<Comparison> _comp = new HashSet<>();
                 for (int i = 0; i < sorted.array.length; ++i) {

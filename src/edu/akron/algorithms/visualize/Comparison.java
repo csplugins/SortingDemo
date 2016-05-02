@@ -15,12 +15,20 @@ public class Comparison {
         return color.equals(Color.red);
     }
 
+    public boolean isDone() {
+        return color.equals(Color.green);
+    }
+
     public static Comparison basic(final int index) {
         return new Comparison(Color.red, index);
     }
 
     public static Comparison special(final int index) {
         return new Comparison(Color.green.darker(), index);
+    }
+
+    public static Comparison done(final int index) {
+        return new Comparison(Color.green, index);
     }
 
     public static Comparison swap(final int index) {

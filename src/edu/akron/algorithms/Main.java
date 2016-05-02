@@ -127,22 +127,40 @@ public class Main implements Runnable {
                     tone = new Tone(soda);
                 } catch (final MidiUnavailableException ignored) {
                 }
-                for (final SortStep step : sorted.steps) {
+                final Queue<SortStep> q = new LinkedList<>(sorted.steps);
+                final Set<Comparison> _comp = new HashSet<>();
+                for (int i = 0; i < sorted.array.length; ++i) {
+                    _comp.add(Comparison.done(i));
+                    q.offer(new SortStep(sorted.array, new HashSet<>(_comp)));
+                }
+                for (final SortStep step : q) {
                     this.step.set(step);
                     Object[] ta = null;
+                    int ta2 = -1;
                     if (step.comparisons.size() != 2) {
                         final HashSet<Comparison> set2 = new HashSet<>(step.comparisons);
                         set2.removeIf(comparison -> !comparison.isBasic());
                         if (set2.size() == 2) ta = set2.toArray();
+                        else {
+                            final HashSet<Comparison> set3 = new HashSet<>(step.comparisons);
+                            set3.removeIf(c -> !c.isDone());
+                            if (set3.size() > 0) {
+                                int index = 0;
+                                for (final Comparison c : set3) if (c.index > index) index = c.index;
+                                ta2 = index;
+                            }
+                        }
                     } else ta = step.comparisons.toArray();
                     try {
                         SwingUtilities.invokeAndWait(this::repaint);
                     } catch (final InterruptedException | InvocationTargetException ignored) {
                     }
-                    if (tone != null && ta != null) {
+                    if (tone != null) {
                         try {
-                            tone.compare(slider.getValue(), step.arr[((Comparison) ta[0]).index], step.arr[((Comparison) ta[1]).index]);
-                        } catch (InterruptedException ex) {
+                            if (ta != null)
+                                tone.compare(slider.getValue(), step.arr[((Comparison) ta[0]).index], step.arr[((Comparison) ta[1]).index]);
+                            else if (ta2 >= 0) tone.play(slider.getValue(), sorted.array[ta2]);
+                        } catch (final InterruptedException ex) {
                             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -150,16 +168,6 @@ public class Main implements Runnable {
                         Thread.sleep(slider.getValue());
                     } catch (final InterruptedException ignored) {
                     }
-                }
-                this.step.set(new SortStep(sorted.array, Collections.emptySet()));
-                try {
-                    SwingUtilities.invokeAndWait(this::repaint);
-                } catch (final InterruptedException | InvocationTargetException ignored) {
-                }
-                if (tone != null) try {
-                    tone.complete(slider.getValue(), sorted.array);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 running.set(false);
             });

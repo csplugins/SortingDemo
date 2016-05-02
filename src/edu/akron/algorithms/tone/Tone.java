@@ -37,13 +37,11 @@ public class Tone {
         player2.stopNote(note2);
     }
 
-    public void complete(final int duration, int[] elements) throws InterruptedException {
-        for (final int element : elements) {
-            final int tone = (element - minVal) * 75 / scale + 30;
-            Note note = new Note(tone);
-            player.startNote(note);
-            Thread.sleep(duration);
-            player.stopNote(note);
-        }
+    public void play(final int duration, final int element) throws InterruptedException {
+        final int tone = (element - minVal) * 75 / scale + 30;
+        Note note = new Note(tone);
+        player.startNote(note);
+        Thread.sleep(duration);
+        player.stopNote(note);
     }
 }

@@ -66,6 +66,7 @@ public class Main implements Runnable {
     public void run() {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setMinimumSize(frame.getSize());
         frame.setLocationRelativeTo(frame.getParent());
         frame.setVisible(true);
     }

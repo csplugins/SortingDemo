@@ -14,6 +14,7 @@ public class BubbleSort implements GenericSort {
         final Queue<SortStep> q = new LinkedList<>();
         int n = elements.length;
         for (int i = 0; i < elements.length; ++i) {
+            boolean did_swap = false;
             for (int j = 0; j < n - 1; ++j) {
                 final int finalJ = j;
                 q.offer(new SortStep(elements, new HashSet<Comparison>() {
@@ -23,6 +24,7 @@ public class BubbleSort implements GenericSort {
                     }
                 }));
                 if (elements[j] > elements[j + 1]) {
+                    did_swap = true;
                     int temp = elements[j];
                     elements[j] = elements[j + 1];
                     elements[j + 1] = temp;
@@ -34,6 +36,7 @@ public class BubbleSort implements GenericSort {
                     }));
                 }
             }
+            if (!did_swap) break;
             n--;
         }
         return new Sorted(elements, q);

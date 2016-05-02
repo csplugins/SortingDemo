@@ -19,6 +19,9 @@ import java.util.*;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.midi.MidiUnavailableException;
 
 public class Main implements Runnable {
     private static final int BAR_PADDING = 2;
@@ -121,7 +124,7 @@ public class Main implements Runnable {
                 Tone tone = null;
                 try {
                     tone = new Tone(soda);
-                } catch (final LineUnavailableException ignored) {
+                }catch (MidiUnavailableException ignored) {
                 }
                 for (final SortStep step : sorted.steps) {
                     this.step.set(step);
@@ -136,7 +139,11 @@ public class Main implements Runnable {
                     } catch (final InterruptedException | InvocationTargetException ignored) {
                     }
                     if (tone != null && ta != null) {
-                        tone.compare(slider.getValue(), soda[((Comparison) ta[0]).index], soda[((Comparison) ta[1]).index]);
+                        try {
+                            tone.compare(slider.getValue(), soda[((Comparison) ta[0]).index], soda[((Comparison) ta[1]).index]);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                     try {
                         Thread.sleep(slider.getValue());
@@ -148,7 +155,11 @@ public class Main implements Runnable {
                     SwingUtilities.invokeAndWait(this::repaint);
                 } catch (final InterruptedException | InvocationTargetException ignored) {
                 }
-                if (tone != null) tone.complete(slider.getValue(), sorted.array);
+                if (tone != null) try {
+                    tone.complete(slider.getValue(), sorted.array);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 running.set(false);
             });
             t.start();

@@ -11,7 +11,7 @@ public class Tone {
     int scale;
     int minVal;
 
-    public Tone(int[] elements) throws LineUnavailableException, MidiUnavailableException, InterruptedException {
+    public Tone(int[] elements) throws MidiUnavailableException {
         //player.play("T220 m500/0.5 m525/0.5 m550/0.5 m575/0.5 m600/0.5 m625/0.5");
         //new Player().play(new ChordProgression("I IV vi V").eachChordAs("$_i $_i Ri $_i"), new Rhythm().addLayer("..X...X...X...XO"));
         player = new RealtimePlayer();

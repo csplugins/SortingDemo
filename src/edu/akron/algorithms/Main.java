@@ -6,7 +6,7 @@ import edu.akron.algorithms.visualize.Comparison;
 import edu.akron.algorithms.visualize.SortStep;
 import edu.akron.algorithms.visualize.Sorted;
 
-import javax.sound.sampled.LineUnavailableException;
+import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,13 +21,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.midi.MidiUnavailableException;
 
 public class Main implements Runnable {
     private static final int BAR_PADDING = 2;
     private final JFrame frame;
-    private JComboBox sort, sample;
-    private JSlider slider;
+    private final JComboBox sort;
+    private final JComboBox sample;
+    private final JSlider slider;
 
     public Main() {
         frame = new JFrame();
@@ -73,7 +73,7 @@ public class Main implements Runnable {
     public class SortVisualizer extends JPanel implements ActionListener {
         private final int w, h;
         private final AtomicBoolean running = new AtomicBoolean(false);
-        private AtomicReference<SortStep> step = new AtomicReference<>();
+        private final AtomicReference<SortStep> step = new AtomicReference<>();
 
         public SortVisualizer() {
             this(800, 500);
@@ -124,7 +124,7 @@ public class Main implements Runnable {
                 Tone tone = null;
                 try {
                     tone = new Tone(soda);
-                }catch (MidiUnavailableException ignored) {
+                } catch (final MidiUnavailableException ignored) {
                 }
                 for (final SortStep step : sorted.steps) {
                     this.step.set(step);
@@ -140,7 +140,7 @@ public class Main implements Runnable {
                     }
                     if (tone != null && ta != null) {
                         try {
-                            tone.compare(slider.getValue(), soda[((Comparison) ta[0]).index], soda[((Comparison) ta[1]).index]);
+                            tone.compare(slider.getValue(), step.arr[((Comparison) ta[0]).index], step.arr[((Comparison) ta[1]).index]);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                         }

@@ -1,9 +1,9 @@
 package edu.akron.algorithms.tone;
 
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.sampled.LineUnavailableException;
 import org.jfugue.realtime.RealtimePlayer;
 import org.jfugue.theory.Note;
+
+import javax.sound.midi.MidiUnavailableException;
 
 public class Tone {
     RealtimePlayer player;
@@ -28,7 +28,7 @@ public class Tone {
     public void compare(final int duration, final int value1, final int value2) throws InterruptedException {
         int tone = (value1 - minVal) * 75 / scale + 30;
         Note note = new Note(tone);
-        tone = (value1 - minVal) * 75 / scale + 30;
+        tone = (value2 - minVal) * 75 / scale + 30;
         Note note2 = new Note(tone);
         player.startNote(note);
         player2.startNote(note2);
